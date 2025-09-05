@@ -1,0 +1,23 @@
+services:
+  chisel-server:
+    build: ./server
+    image: YOUR_DOCKERHUB_USERNAME/chisel-server:latest
+    container_name: chisel-server
+    environment:
+      - CHISEL_PORT=${CHISEL_PORT}
+      - CHISEL_AUTH=${CHISEL_AUTH}
+      - CHISEL_EXTRA_ARGS=
+    ports:
+      - "${CHISEL_PORT}:${CHISEL_PORT}/tcp"
+    restart: unless-stopped
+
+  pac-server:
+    build: ./pac
+    image: YOUR_DOCKERHUB_USERNAME/pac-server:latest
+    container_name: pac-server
+    environment:
+      - PUBLIC_HOST=${PUBLIC_HOST}
+      - CHISEL_PORT=${CHISEL_PORT}
+    ports:
+      - "${PAC_HTTP_PORT}:80/tcp"
+    restart: unless-stopped
